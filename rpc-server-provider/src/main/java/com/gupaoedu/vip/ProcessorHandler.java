@@ -22,11 +22,8 @@ public class ProcessorHandler implements Runnable {
 
         try {
             ois = new ObjectInputStream(socket.getInputStream());
-
-            //输入流中应该有什么东西？
-            //请求哪个类，方法名称、参数
             RpcRequest rpcRequest = (RpcRequest) ois.readObject();
-            Object result = callMethod(rpcRequest); //反射调用本地服务
+            Object result = this.callMethod(rpcRequest);
 
             oos = new ObjectOutputStream(socket.getOutputStream());
             oos.writeObject(result);

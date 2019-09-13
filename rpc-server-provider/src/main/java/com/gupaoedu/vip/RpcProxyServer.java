@@ -15,10 +15,8 @@ public class RpcProxyServer {
 
         try {
             serverSocket = new ServerSocket(port);
-            while (true) {
-                Socket socket = serverSocket.accept();
-                executorService.execute(new ProcessorHandler(socket, service));
-            }
+            Socket socket = serverSocket.accept();
+            executorService.execute(new ProcessorHandler(socket, service));
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
