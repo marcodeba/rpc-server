@@ -23,7 +23,7 @@ public class ProcessorHandler implements Runnable {
         try {
             ois = new ObjectInputStream(socket.getInputStream());
             RpcRequest rpcRequest = (RpcRequest) ois.readObject();
-            Object result = this.callMethod(rpcRequest);
+            Object result = callMethod(rpcRequest);
 
             oos = new ObjectOutputStream(socket.getOutputStream());
             oos.writeObject(result);
@@ -34,6 +34,7 @@ public class ProcessorHandler implements Runnable {
             if (ois != null) {
                 try {
                     ois.close();
+                    ois = null;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -41,6 +42,7 @@ public class ProcessorHandler implements Runnable {
             if (oos != null) {
                 try {
                     oos.close();
+                    oos = null;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
