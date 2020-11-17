@@ -6,17 +6,19 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-// 暴露服务
 public class RpcProxyServer {
     ExecutorService executorService = Executors.newCachedThreadPool();
 
-    public void publishService(Object service, int port) {
+    // 暴露服务
+    public void publishService(Object serviceImpl, int port) {
         ServerSocket serverSocket = null;
 
         try {
             serverSocket = new ServerSocket(port);
-            Socket socket = serverSocket.accept();
-            executorService.execute(new ProcessorHandler(socket, service));
+            while (true) {
+                Socket socket = serverSocket.accept();
+                executorService.execute(new ProcessorHandler(socket, serviceImpl));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } finally {

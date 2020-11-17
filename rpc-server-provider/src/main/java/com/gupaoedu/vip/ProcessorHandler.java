@@ -8,11 +8,11 @@ import java.net.Socket;
 
 public class ProcessorHandler implements Runnable {
     private Socket socket;
-    private Object service;
+    private Object serviceImpl;
 
-    public ProcessorHandler(Socket socket, Object service) {
+    public ProcessorHandler(Socket socket, Object serviceImpl) {
         this.socket = socket;
-        this.service = service;
+        this.serviceImpl = serviceImpl;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class ProcessorHandler implements Runnable {
         }
         Class clazz = Class.forName(request.getClassName()); //跟去请求的类进行加载
         Method method = clazz.getMethod(request.getMethodName(), types); //sayHello, saveUser找到这个类中的方法
-        Object result = method.invoke(service, prams);//HelloServiceImpl 进行反射调用
+        Object result = method.invoke(serviceImpl, prams);//HelloserviceImplImpl 进行反射调用
         return result;
     }
 }
